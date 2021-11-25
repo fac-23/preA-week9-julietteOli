@@ -20,6 +20,15 @@ User story:
 
 * Check it's mobile friendly _Juliette & Oli_
 
+* Local storage _Oli_
+
+
+Testing aims
+* Set up nicely coloured error messages 
+* Unit testing 
+* Integration testing 
+* Think of edge cases 
+
 
 
 _Juliette_ _Oli_
