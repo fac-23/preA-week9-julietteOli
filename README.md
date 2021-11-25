@@ -14,9 +14,11 @@ User story:
 
 * Filter out completed to-dos from my list so that I can focus on what’s left to do - _Juliette_
 
-* CSS styling _Juliette_ _Oli_
+* Celebratory animation when you finish a task - _Juliette_
 
-* Check it's mobile friendly _Juliette_ _Oli_
+* CSS styling _Juliette & Oli_
+
+* Check it's mobile friendly _Juliette & Oli_
 
 
 
