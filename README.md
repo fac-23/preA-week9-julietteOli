@@ -1,5 +1,5 @@
 # preA-week9-julietteOli
-Testing Todo App
+Jelo App
 
 
 User story:
@@ -21,6 +21,8 @@ User story:
 * Check it's mobile friendly _Juliette & Oli_
 
 * Local storage _Oli_
+
+* Add a reordering function _Juliette_
 
 
 Testing aims
