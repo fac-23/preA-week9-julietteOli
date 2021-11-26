@@ -1,8 +1,3 @@
-equal("10", "10");
-equal("10", "30");
-notEqual("9", "9");
-notEqual("9", 9);
-
 function equal(actual, expected, message) {
   if (actual === expected) {
     const defaultMessage = `Expected ${expected} and received ${actual}`;
