@@ -16,7 +16,7 @@ let form = document.querySelector("form");
   EVENT LISTENERS
 \*----------------------------------------------------*/
 //add event listener to save new item to todo lit
-form.addEventListener("submit", event => {
+form.addEventListener("submit", (event) => {
   event.preventDefault();
 
   // get user input from form
@@ -28,7 +28,7 @@ form.addEventListener("submit", event => {
   todoList.innerHTML = "";
 
   //loop over global state array and create list using createElement
-  globalState.forEach(item => {
+  globalState.forEach((item) => {
     //create <li>
     const newItem = document.createElement("li");
     //append current todo text item
@@ -38,16 +38,36 @@ form.addEventListener("submit", event => {
     const checkbox = document.createElement("input");
     checkbox.setAttribute("type", "checkbox");
 
-    //create deleteBtn
+    //create deleteBtn and add
     const deleteBtn = document.createElement("button");
     deleteBtn.innerText = "X";
+
+    deleteBtn.addEventListener("click", (event) => {
+      //update state to match DOM
+      let clickedLi = event.target.parentNode;
+      currentTodos = document.querySelectorAll(".todo-item");
+
+      currentTodos.forEach((todo, index) => {
+        let clickedText = clickedLi.childNodes[0].data;
+        let currItemText = todo.childNodes[0].data;
+
+        //does not work with duplicates
+        if (currItemText === clickedText) {
+          globalState.splice(index, 1);
+          clickedLi.parentNode.removeChild(clickedLi);
+        }
+      });
+      console.log("New state following deletion:", globalState);
+    });
 
     //Append checkbox and delete button to <li> and append <li> to <ol>
     newItem.appendChild(checkbox);
     newItem.appendChild(deleteBtn);
+    newItem.setAttribute("class", "todo-item");
     todoList.appendChild(newItem);
   });
 
+  console.log("New state following addition:", globalState);
   event.target.reset();
 });
 
