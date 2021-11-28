@@ -4,19 +4,31 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <title>To Do App</title>
   </head>
 
   <body>
-    <!-- Controls -->
-    <form>
-      <input id="user_input" type="text" />
-      <button type="submit">save item</button>
-      <button>hide checked</button>
-    </form>
+    <h1 class="center">Jello</h1>
 
+    <section class="center input-form stack-lg width-md">
+      <!-- Controls -->
+      <form>
+        <!-- Toggle to hide completed tasks -->
+        <div class="toggle-wrapper">
+          <label class="hide-done" for="hideToggle">
+            <input type="checkbox" id="hideToggle" />
+            <div class="slider round"></div>
+          </label>
+        </div>
+
+        <input id="user_input" type="text" />
+        <button type="submit">save item</button>
+      </form>
+    </section>
     <!-- List rendered here -->
     <ol id="todo_list"></ol>
+
     <script src="test.helpers.js"></script>
     <script src="app.js"></script>
   </body>
