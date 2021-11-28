@@ -1,34 +1,22 @@
-/*-------------------------------------------*\
-  VARIABLES
-\*-------------------------------------------*/
-
 // state of todo list is just a global variable for now, later on we will read and write to local storage
 let globalState = [];
 const todoList = document.querySelector("#todo_list");
 
+//add event listener to save
 let form = document.querySelector("form");
-
-/*----------------------------------------------------*\
-  FUNCTIONS TO ADD TO TO DO LIST
-\*----------------------------------------------------*/
-
-/*----------------------------------------------------*\
-  EVENT LISTENERS
-\*----------------------------------------------------*/
-//add event listener to save new item to todo lit
-form.addEventListener("submit", event => {
+form.addEventListener("submit", (event) => {
   event.preventDefault();
 
   // get user input from form
-  const userInput = document.querySelector("#user_input").value;
+  const userIput = document.querySelector("#user_input").value;
   // push it into global state array
-  globalState.push(userInput);
+  globalState.push(userIput);
 
   //clear current contents of list
   todoList.innerHTML = "";
 
   //loop over global state array and create list using createElement
-  globalState.forEach(item => {
+  globalState.forEach((item) => {
     //create <li>
     const newItem = document.createElement("li");
     //append current todo text item
