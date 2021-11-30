@@ -22,7 +22,8 @@ form.addEventListener("submit", (event) => {
   // get user input from form
   const userInput = document.querySelector("#user_input").value;
   // push it into global state array
-  globalState.push(userInput);
+  let uid = Math.random().toString(16).slice(10);
+  globalState.push({ savedText: userInput, uid: uid });
 
   //clear current contents of list
   todoList.innerHTML = "";
@@ -32,31 +33,31 @@ form.addEventListener("submit", (event) => {
     //create <li>
     const newItem = document.createElement("li");
     //append current todo text item
-    newItem.appendChild(document.createTextNode(item));
+    newItem.appendChild(document.createTextNode(item.savedText));
+    newItem.setAttribute("id", item.uid);
 
     //create checkbox
     const checkbox = document.createElement("input");
     checkbox.setAttribute("type", "checkbox");
 
-    //create deleteBtn and add
+    //create deleteBtn for each and add event listeners
     const deleteBtn = document.createElement("button");
     deleteBtn.innerText = "X";
 
     deleteBtn.addEventListener("click", (event) => {
-      //update state to match DOM
-      let clickedLi = event.target.parentNode;
-      currentTodos = document.querySelectorAll(".todo-item");
+      //when clicked get id of clicked
+      let clickedLi = event.target.parentElement;
+      let clickedID = clickedLi.id;
 
-      currentTodos.forEach((todo, index) => {
-        let clickedText = clickedLi.childNodes[0].data;
-        let currItemText = todo.childNodes[0].data;
+      //find index of item to be removed from global state
+      let removalIndex = globalState.findIndex(
+        (item) => item.uid === clickedID
+      );
 
-        //does not work with duplicates
-        if (currItemText === clickedText) {
-          globalState.splice(index, 1);
-          clickedLi.parentNode.removeChild(clickedLi);
-        }
-      });
+      //splice item from global state and remove from DOM
+      globalState.splice(removalIndex, 1);
+      clickedLi.remove();
+
       console.log("New state following deletion:", globalState);
     });
 
