@@ -6,7 +6,9 @@
 let globalState = [];
 const todoList = document.querySelector("#todo_list");
 
-let form = document.querySelector("form");
+const form = document.querySelector("form");
+const submit = document.querySelector('button[type="submit"]');
+const textInput = document.querySelector("#user_input");
 
 /*----------------------------------------------------*\
   FUNCTIONS TO ADD TO TO DO LIST
@@ -74,7 +76,81 @@ form.addEventListener("submit", (event) => {
 
 //TODO
 test("user can add to list", () => {
+  clearList();
   //automate input of user text
+  textInput.value = "feed the cat";
   //automate button click
-  //compare expected HTML with real HTML
+  submit.click();
+  //repeat
+  textInput.value = "wash the dishes";
+  submit.click();
+  //repeat
+  textInput.value = "buy jelly and iceream";
+  submit.click();
+
+  let firstItem = todoList.childNodes[0];
+  let secondItem = todoList.childNodes[1];
+  let thirdItem = todoList.childNodes[2];
+
+  //check text is added in correct order and checkbox and buttons are preserved
+  equal(
+    firstItem.innerHTML,
+    'feed the cat<input type="checkbox"><button>X</button>'
+  );
+
+  equal(
+    secondItem.innerHTML,
+    'wash the dishes<input type="checkbox"><button>X</button>'
+  );
+
+  equal(
+    thirdItem.innerHTML,
+    'buy jelly and iceream<input type="checkbox"><button>X</button>'
+  );
 });
+
+test("user can delete from list", () => {
+  clearList();
+  // automate input of user text
+  // automate button click
+
+  textInput.value = "go to gym";
+  submit.click();
+  //repeat
+  textInput.value = "learn JavaScript";
+  submit.click();
+  //repeat
+  textInput.value = "watch new netflix show";
+  submit.click();
+
+  let firstItem = todoList.childNodes[0];
+  let secondItem = todoList.childNodes[1];
+  let thirdItem = todoList.childNodes[2];
+
+  let secondButton = secondItem.childNodes[2];
+  secondButton.click();
+
+  //dom has changed so queryselect again
+  firstItem = todoList.childNodes[0];
+  secondItem = todoList.childNodes[1];
+  thirdItem = todoList.childNodes[2];
+
+  // check text is added in correct order and checkbox and buttons are preserved
+  equal(
+    firstItem.innerHTML,
+    'go to gym<input type="checkbox"><button>X</button>'
+  );
+  equal(
+    secondItem.innerHTML,
+    'watch new netflix show<input type="checkbox"><button>X</button>'
+  );
+  equal(thirdItem, undefined);
+});
+
+function clearList() {
+  //removes all list items and sets global state to empty array
+  while (todoList.firstChild) {
+    todoList.removeChild(todoList.lastChild);
+  }
+  globalState = [];
+}
