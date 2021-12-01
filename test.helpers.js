@@ -6,10 +6,28 @@
 
 // })
 
-test("Checking an entry marks it as complete", () => {
+/*----------------------------------------------------*\
+ # CHECKBOX TESTs
+\*----------------------------------------------------*/
+
+test("Check that box can be checked", () => {
+  // test goes here
+});
+test("Check that box can be unchecked", () => {
   // test goes here
 });
 
+test("Checking 'complete' appears once checked", () => {
+  // test goes here
+});
+
+test("Check checkbox added to the completed task array", () => {
+  // test goes here
+});
+
+test("Check checkbox cannot be added to the completed task array more than once", () => {
+  // test goes here
+});
 /*----------------------------------------------------*\
  TEST HELPERS
 \*----------------------------------------------------*/

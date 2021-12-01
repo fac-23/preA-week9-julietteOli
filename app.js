@@ -7,9 +7,32 @@ let globalState = [];
 const todoList = document.querySelector("#todo_list");
 let form = document.querySelector("form");
 const userInput = document.querySelector("#user_input");
+
+//Checkbox variables
+let completeArray = [];
+let checkComplete = Array.from(document.querySelectorAll("check-complete"));
 /*----------------------------------------------------*\
   FUNCTIONS 
 \*----------------------------------------------------*/
+
+//generate a unique id
+function uniqueID(event) {
+  let date = Date.now();
+  console.log(Math.floor(Math.random() * date));
+}
+
+// a function to display completed once item is checked off the list
+function displayCompleted(event) {
+  const completedText = document.createElement("li");
+  completedText.appendChild(document.createTextNode("completed"));
+  completedText.classList.add("completed-text");
+  todoList.appendChild(completedText);
+}
+
+function updateCompleted(event) {
+  completeArray.push(event.target);
+  console.log(completeArray);
+}
 
 /*----------------------------------------------------*\
   EVENT LISTENERS
@@ -37,6 +60,7 @@ form.addEventListener("submit", event => {
     //create checkbox
     const checkbox = document.createElement("input");
     checkbox.setAttribute("type", "checkbox");
+    checkbox.classList.add("check-complete");
 
     //create deleteBtn
     const deleteBtn = document.createElement("button");
@@ -50,6 +74,10 @@ form.addEventListener("submit", event => {
 
   event.target.reset();
 });
+
+todoList.addEventListener("input", displayCompleted);
+todoList.addEventListener("input", updateCompleted);
+todoList.addEventListener("input", uniqueID);
 
 /*----------------------------------------------------*\
  TESTs
