@@ -74,7 +74,7 @@ body {
 
 /* The switch - the box around the slider */
 .hide-done {
-  display: inline-block;
+  display: block;
   height: 34px;
   position: relative;
   width: 60px;

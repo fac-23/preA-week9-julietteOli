@@ -1,3 +1,19 @@
+/*----------------------------------------------------*\
+ TESTs
+\*----------------------------------------------------*/
+
+// test("items being removed from list" (){
+
+// })
+
+test("Checking an entry marks it as complete", () => {
+  // test goes here
+});
+
+/*----------------------------------------------------*\
+ TEST HELPERS
+\*----------------------------------------------------*/
+
 function equal(actual, expected, message) {
   if (actual === expected) {
     const defaultMessage = `Expected ${expected} and received ${actual}`;
