@@ -26,8 +26,13 @@
 \*----------------------------------------------------*/
 
 /* GLOBAL VARIABLES */
-/* Will add global variables for colours later */
-
+/* Colors */
+html {
+  --bg-color: #2d3950;
+  --light-color: #00a28d;
+  --font-color: whitesmoke;
+  --completed-color: green;
+}
 /*------------------------------------*\
 GENERIC
 \*------------------------------------*/
@@ -47,6 +52,8 @@ BASE
 
 body {
   font-family: "sans-serif";
+  background-color: var(--bg-color);
+  color: var(--font-color);
 }
 
 /*------------------------------------*\
@@ -57,12 +64,26 @@ body {
  # SECTION - GENERIC
 \*------------------------------------*/
 /* styling of different sections of the page*/
-
+.h1 {
+  text-align: center;
+}
 /*----------------------------------------------------*\
  # To-do input form - to add new tasks
 \*----------------------------------------------------*/
 .input-form {
   display: flex;
+  min-width: 60vw;
+  background-color: var(--light-color);
+}
+.todo-output {
+  min-width: 60vw;
+  background-color: var(--light-color);
+  justify-content: flex-start;
+}
+
+/* COMPLETED TASKS CSS*/
+.completed-text {
+  color: var(--completed-color);
 }
 /*----------------------------------------------------*\
  # TOGGLE
@@ -70,6 +91,7 @@ body {
 .toggle-wrapper {
   display: flex;
   align-items: center;
+  flex-direction: row;
 }
 
 /* The switch - the box around the slider */
@@ -148,7 +170,7 @@ input:checked + .slider:before {
 .center {
   margin-left: auto;
   margin-right: auto;
-  max-width: 60rem;
+  max-width: 20vw;
 }
 
 .width-lg {
