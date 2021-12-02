@@ -5,18 +5,61 @@
 // state of todo list is just a global variable for now, later on we will read and write to local storage
 let globalState = [];
 const todoList = document.querySelector("#todo_list");
-
+const toggle = document.querySelector("#hideToggle");
 const form = document.querySelector("form");
 const submit = document.querySelector('button[type="submit"]');
 const textInput = document.querySelector("#user_input");
 
+//Checkbox variables
+let completeArray = [];
+let checkComplete = Array.from(document.querySelectorAll("check-complete"));
 /*----------------------------------------------------*\
-  FUNCTIONS TO ADD TO TO DO LIST
+  FUNCTIONS 
 \*----------------------------------------------------*/
+
+// a function to display completed once item is checked off the list
+function displayCompleted(event) {
+  console.log(globalState);
+  event.target.classList.add("completed-text");
+  const completedText = document.createElement("li");
+
+  /* Considering making the word completed appear */
+  //completedText.appendChild(document.createTextNode("completed"));
+  //completedText.classList.add("completed-text");
+  //todoList.appendChild(completedText);
+}
+
+function updateCompleted(event) {
+  completeArray.push(event.target);
+  //console.log(completeArray);
+}
+
+function hideToggle(event) {
+  if (toggle.classList.contains("hide")) {
+    toggle.classList.remove("hide");
+  } else {
+    toggle.setAttribute("class", "hide");
+
+    completeArray.forEach(el => {
+      el.setAttribute("style", "display:none");
+    });
+    console.log(completeArray);
+    //if (event.target.value === "checked") {
+    console.log(toggle.classList);
+  }
+}
 
 /*----------------------------------------------------*\
   EVENT LISTENERS
 \*----------------------------------------------------*/
+
+// Marking completed event listeners
+todoList.addEventListener("input", displayCompleted);
+todoList.addEventListener("input", updateCompleted);
+
+// Toggle event listener
+toggle.addEventListener("change", hideToggle);
+
 //add event listener to save new item to todo lit
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -41,6 +84,7 @@ form.addEventListener("submit", (event) => {
     //create checkbox
     const checkbox = document.createElement("input");
     checkbox.setAttribute("type", "checkbox");
+    checkbox.classList.add("check-complete");
 
     //create deleteBtn for each and add event listeners
     const deleteBtn = document.createElement("button");
@@ -74,7 +118,9 @@ form.addEventListener("submit", (event) => {
   event.target.reset();
 });
 
-//TODO
+/*----------------------------------------------------*\
+ TESTs
+\*----------------------------------------------------*/
 test("user can add to list", () => {
   clearList();
   //automate input of user text
