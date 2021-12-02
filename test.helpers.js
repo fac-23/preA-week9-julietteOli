@@ -34,13 +34,13 @@ test("Check checkbox cannot be added to the completed task array more than once"
 
 function equal(actual, expected, message) {
   if (actual === expected) {
-    const defaultMessage = `Expected ${expected} and received ${actual}`;
+    const defaultMessage = `Expected: ${expected} and received: ${actual}`;
     console.info(
       "%cPass: " + (message || defaultMessage) + " ✅",
       "background: white; color: green; padding: 3px"
     );
   } else {
-    const defaultMessage = `Expected ${expected} but received ${actual} instead`;
+    const defaultMessage = `Expected: ${expected} but received: ${actual} instead`;
     console.error(
       "%cFail: " + (message || defaultMessage) + " ❌",
       "background: white; color: red; padding: 3px"
