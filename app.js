@@ -4,11 +4,15 @@
 
 // state of todo list is just a global variable for now, later on we will read and write to local storage
 let globalState = [];
+
 const todoList = document.querySelector("#todo_list");
 const toggle = document.querySelector("#hideToggle");
 const form = document.querySelector("form");
 const submit = document.querySelector('button[type="submit"]');
 const textInput = document.querySelector("#user_input");
+
+//retrieve stored State and update DOM
+getStoredState();
 
 //Checkbox variables
 let completeArray = [];
@@ -16,6 +20,65 @@ let checkComplete = Array.from(document.querySelectorAll("check-complete"));
 /*----------------------------------------------------*\
   FUNCTIONS 
 \*----------------------------------------------------*/
+
+//collect stored global State from local storage
+function getStoredState() {
+  let newGlobalState = window.localStorage.getItem("preservedState");
+  if (newGlobalState !== "null") {
+    globalState = JSON.parse(newGlobalState);
+    //update DOM with items
+    addToList(globalState);
+    console.log("New state following addition:", globalState);
+  }
+}
+
+//loop over global state array and create list using createElement
+function addToList(globalState) {
+  stateList = globalState;
+  stateList.forEach((item) => {
+    //create <li>
+    const newItem = document.createElement("li");
+    //append current todo text item
+    newItem.appendChild(document.createTextNode(item.savedText));
+    newItem.setAttribute("id", item.uid);
+
+    //create checkbox
+    const checkbox = document.createElement("input");
+    checkbox.setAttribute("type", "checkbox");
+    checkbox.classList.add("check-complete");
+
+    //create deleteBtn for each and add event listeners
+    const deleteBtn = document.createElement("button");
+    deleteBtn.innerText = "X";
+
+    deleteBtn.addEventListener("click", (event) => {
+      //when clicked get id of clicked
+      let clickedLi = event.target.parentElement;
+      let clickedID = clickedLi.id;
+
+      //find index of item to be removed from global state
+      let removalIndex = globalState.findIndex(
+        (item) => item.uid === clickedID
+      );
+
+      //splice item from global state and remove from DOM
+      globalState.splice(removalIndex, 1);
+      clickedLi.remove();
+
+      console.log("New state following deletion:", globalState);
+      window.localStorage.setItem(
+        "preservedState",
+        JSON.stringify(globalState)
+      );
+    });
+
+    //Append checkbox and delete button to <li> and append <li> to <ol>
+    newItem.appendChild(checkbox);
+    newItem.appendChild(deleteBtn);
+    newItem.setAttribute("class", "todo-item");
+    todoList.appendChild(newItem);
+  });
+}
 
 // a function to display completed once item is checked off the list
 function displayCompleted(event) {
@@ -40,7 +103,7 @@ function hideToggle(event) {
   } else {
     toggle.setAttribute("class", "hide");
 
-    completeArray.forEach(el => {
+    completeArray.forEach((el) => {
       el.setAttribute("style", "display:none");
     });
     console.log(completeArray);
@@ -73,48 +136,10 @@ form.addEventListener("submit", (event) => {
   //clear current contents of list
   todoList.innerHTML = "";
 
-  //loop over global state array and create list using createElement
-  globalState.forEach((item) => {
-    //create <li>
-    const newItem = document.createElement("li");
-    //append current todo text item
-    newItem.appendChild(document.createTextNode(item.savedText));
-    newItem.setAttribute("id", item.uid);
-
-    //create checkbox
-    const checkbox = document.createElement("input");
-    checkbox.setAttribute("type", "checkbox");
-    checkbox.classList.add("check-complete");
-
-    //create deleteBtn for each and add event listeners
-    const deleteBtn = document.createElement("button");
-    deleteBtn.innerText = "X";
-
-    deleteBtn.addEventListener("click", (event) => {
-      //when clicked get id of clicked
-      let clickedLi = event.target.parentElement;
-      let clickedID = clickedLi.id;
-
-      //find index of item to be removed from global state
-      let removalIndex = globalState.findIndex(
-        (item) => item.uid === clickedID
-      );
-
-      //splice item from global state and remove from DOM
-      globalState.splice(removalIndex, 1);
-      clickedLi.remove();
-
-      console.log("New state following deletion:", globalState);
-    });
-
-    //Append checkbox and delete button to <li> and append <li> to <ol>
-    newItem.appendChild(checkbox);
-    newItem.appendChild(deleteBtn);
-    newItem.setAttribute("class", "todo-item");
-    todoList.appendChild(newItem);
-  });
+  addToList(globalState);
 
   console.log("New state following addition:", globalState);
+  window.localStorage.setItem("preservedState", JSON.stringify(globalState));
   event.target.reset();
 });
 
