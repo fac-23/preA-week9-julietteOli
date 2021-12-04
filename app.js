@@ -11,7 +11,7 @@ const form = document.querySelector("form");
 const submit = document.querySelector('button[type="submit"]');
 const textInput = document.querySelector("#user_input");
 
-//retrieve stired State
+//retrieve stored State and update DOM
 getStoredState();
 
 //Checkbox variables
@@ -21,61 +21,63 @@ let checkComplete = Array.from(document.querySelectorAll("check-complete"));
   FUNCTIONS 
 \*----------------------------------------------------*/
 
+//collect stored global State from local storage
 function getStoredState() {
   let newGlobalState = window.localStorage.getItem("preservedState");
   if (newGlobalState !== "null") {
     globalState = JSON.parse(newGlobalState);
+    //update DOM with items
+    addToList(globalState);
+    console.log("New state following addition:", globalState);
+  }
+}
 
-    globalState.forEach((item) => {
-      //create <li>
-      const newItem = document.createElement("li");
-      //append current todo text item
-      newItem.appendChild(document.createTextNode(item.savedText));
-      newItem.setAttribute("id", item.uid);
+//loop over global state array and create list using createElement
+function addToList(globalState) {
+  stateList = globalState;
+  stateList.forEach((item) => {
+    //create <li>
+    const newItem = document.createElement("li");
+    //append current todo text item
+    newItem.appendChild(document.createTextNode(item.savedText));
+    newItem.setAttribute("id", item.uid);
 
-      //create checkbox
-      const checkbox = document.createElement("input");
-      checkbox.setAttribute("type", "checkbox");
-      checkbox.classList.add("check-complete");
+    //create checkbox
+    const checkbox = document.createElement("input");
+    checkbox.setAttribute("type", "checkbox");
+    checkbox.classList.add("check-complete");
 
-      //create deleteBtn for each and add event listeners
-      const deleteBtn = document.createElement("button");
-      deleteBtn.innerText = "X";
+    //create deleteBtn for each and add event listeners
+    const deleteBtn = document.createElement("button");
+    deleteBtn.innerText = "X";
 
-      deleteBtn.addEventListener("click", (event) => {
-        //when clicked get id of clicked
-        let clickedLi = event.target.parentElement;
-        let clickedID = clickedLi.id;
+    deleteBtn.addEventListener("click", (event) => {
+      //when clicked get id of clicked
+      let clickedLi = event.target.parentElement;
+      let clickedID = clickedLi.id;
 
-        //find index of item to be removed from global state
-        let removalIndex = globalState.findIndex(
-          (item) => item.uid === clickedID
-        );
+      //find index of item to be removed from global state
+      let removalIndex = globalState.findIndex(
+        (item) => item.uid === clickedID
+      );
 
-        //splice item from global state and remove from DOM
-        globalState.splice(removalIndex, 1);
-        clickedLi.remove();
+      //splice item from global state and remove from DOM
+      globalState.splice(removalIndex, 1);
+      clickedLi.remove();
 
-        console.log("New state following deletion:", globalState);
-        window.localStorage.setItem(
-          "preservedState",
-          JSON.stringify(globalState)
-        );
-      });
-
-      //Append checkbox and delete button to <li> and append <li> to <ol>
-      newItem.appendChild(checkbox);
-      newItem.appendChild(deleteBtn);
-      newItem.setAttribute("class", "todo-item");
-      todoList.appendChild(newItem);
+      console.log("New state following deletion:", globalState);
+      window.localStorage.setItem(
+        "preservedState",
+        JSON.stringify(globalState)
+      );
     });
 
-    console.log("New state following addition:", globalState);
-    window.localStorage.setItem("preservedState", JSON.stringify(globalState));
-    return globalState;
-  } else {
-    return [];
-  }
+    //Append checkbox and delete button to <li> and append <li> to <ol>
+    newItem.appendChild(checkbox);
+    newItem.appendChild(deleteBtn);
+    newItem.setAttribute("class", "todo-item");
+    todoList.appendChild(newItem);
+  });
 }
 
 // a function to display completed once item is checked off the list
@@ -134,50 +136,7 @@ form.addEventListener("submit", (event) => {
   //clear current contents of list
   todoList.innerHTML = "";
 
-  //loop over global state array and create list using createElement
-  globalState.forEach((item) => {
-    //create <li>
-    const newItem = document.createElement("li");
-    //append current todo text item
-    newItem.appendChild(document.createTextNode(item.savedText));
-    newItem.setAttribute("id", item.uid);
-
-    //create checkbox
-    const checkbox = document.createElement("input");
-    checkbox.setAttribute("type", "checkbox");
-    checkbox.classList.add("check-complete");
-
-    //create deleteBtn for each and add event listeners
-    const deleteBtn = document.createElement("button");
-    deleteBtn.innerText = "X";
-
-    deleteBtn.addEventListener("click", (event) => {
-      //when clicked get id of clicked
-      let clickedLi = event.target.parentElement;
-      let clickedID = clickedLi.id;
-
-      //find index of item to be removed from global state
-      let removalIndex = globalState.findIndex(
-        (item) => item.uid === clickedID
-      );
-
-      //splice item from global state and remove from DOM
-      globalState.splice(removalIndex, 1);
-      clickedLi.remove();
-
-      console.log("New state following deletion:", globalState);
-      window.localStorage.setItem(
-        "preservedState",
-        JSON.stringify(globalState)
-      );
-    });
-
-    //Append checkbox and delete button to <li> and append <li> to <ol>
-    newItem.appendChild(checkbox);
-    newItem.appendChild(deleteBtn);
-    newItem.setAttribute("class", "todo-item");
-    todoList.appendChild(newItem);
-  });
+  addToList(globalState);
 
   console.log("New state following addition:", globalState);
   window.localStorage.setItem("preservedState", JSON.stringify(globalState));
@@ -187,82 +146,82 @@ form.addEventListener("submit", (event) => {
 /*----------------------------------------------------*\
  TESTs
 \*----------------------------------------------------*/
-// test("user can add to list", () => {
-//   clearList();
-//   //automate input of user text
-//   textInput.value = "feed the cat";
-//   //automate button click
-//   submit.click();
-//   //repeat
-//   textInput.value = "wash the dishes";
-//   submit.click();
-//   //repeat
-//   textInput.value = "buy jelly and iceream";
-//   submit.click();
+test("user can add to list", () => {
+  clearList();
+  //automate input of user text
+  textInput.value = "feed the cat";
+  //automate button click
+  submit.click();
+  //repeat
+  textInput.value = "wash the dishes";
+  submit.click();
+  //repeat
+  textInput.value = "buy jelly and iceream";
+  submit.click();
 
-//   let firstItem = todoList.childNodes[0];
-//   let secondItem = todoList.childNodes[1];
-//   let thirdItem = todoList.childNodes[2];
+  let firstItem = todoList.childNodes[0];
+  let secondItem = todoList.childNodes[1];
+  let thirdItem = todoList.childNodes[2];
 
-//   //check text is added in correct order and checkbox and buttons are preserved
-//   equal(
-//     firstItem.innerHTML,
-//     'feed the cat<input type="checkbox"><button>X</button>'
-//   );
+  //check text is added in correct order and checkbox and buttons are preserved
+  equal(
+    firstItem.innerHTML,
+    'feed the cat<input type="checkbox"><button>X</button>'
+  );
 
-//   equal(
-//     secondItem.innerHTML,
-//     'wash the dishes<input type="checkbox"><button>X</button>'
-//   );
+  equal(
+    secondItem.innerHTML,
+    'wash the dishes<input type="checkbox"><button>X</button>'
+  );
 
-//   equal(
-//     thirdItem.innerHTML,
-//     'buy jelly and iceream<input type="checkbox"><button>X</button>'
-//   );
-// });
+  equal(
+    thirdItem.innerHTML,
+    'buy jelly and iceream<input type="checkbox"><button>X</button>'
+  );
+});
 
-// test("user can delete from list", () => {
-//   clearList();
-//   // automate input of user text
-//   // automate button click
+test("user can delete from list", () => {
+  clearList();
+  // automate input of user text
+  // automate button click
 
-//   textInput.value = "go to gym";
-//   submit.click();
-//   //repeat
-//   textInput.value = "learn JavaScript";
-//   submit.click();
-//   //repeat
-//   textInput.value = "watch new netflix show";
-//   submit.click();
+  textInput.value = "go to gym";
+  submit.click();
+  //repeat
+  textInput.value = "learn JavaScript";
+  submit.click();
+  //repeat
+  textInput.value = "watch new netflix show";
+  submit.click();
 
-//   let firstItem = todoList.childNodes[0];
-//   let secondItem = todoList.childNodes[1];
-//   let thirdItem = todoList.childNodes[2];
+  let firstItem = todoList.childNodes[0];
+  let secondItem = todoList.childNodes[1];
+  let thirdItem = todoList.childNodes[2];
 
-//   let secondButton = secondItem.childNodes[2];
-//   secondButton.click();
+  let secondButton = secondItem.childNodes[2];
+  secondButton.click();
 
-//   //dom has changed so queryselect again
-//   firstItem = todoList.childNodes[0];
-//   secondItem = todoList.childNodes[1];
-//   thirdItem = todoList.childNodes[2];
+  //dom has changed so queryselect again
+  firstItem = todoList.childNodes[0];
+  secondItem = todoList.childNodes[1];
+  thirdItem = todoList.childNodes[2];
 
-//   // check text is added in correct order and checkbox and buttons are preserved
-//   equal(
-//     firstItem.innerHTML,
-//     'go to gym<input type="checkbox"><button>X</button>'
-//   );
-//   equal(
-//     secondItem.innerHTML,
-//     'watch new netflix show<input type="checkbox"><button>X</button>'
-//   );
-//   equal(thirdItem, undefined);
-// });
+  // check text is added in correct order and checkbox and buttons are preserved
+  equal(
+    firstItem.innerHTML,
+    'go to gym<input type="checkbox"><button>X</button>'
+  );
+  equal(
+    secondItem.innerHTML,
+    'watch new netflix show<input type="checkbox"><button>X</button>'
+  );
+  equal(thirdItem, undefined);
+});
 
-// function clearList() {
-//   //removes all list items and sets global state to empty array
-//   while (todoList.firstChild) {
-//     todoList.removeChild(todoList.lastChild);
-//   }
-//   globalState = [];
-// }
+function clearList() {
+  //removes all list items and sets global state to empty array
+  while (todoList.firstChild) {
+    todoList.removeChild(todoList.lastChild);
+  }
+  globalState = [];
+}
