@@ -2,24 +2,9 @@
  TESTs
 \*----------------------------------------------------*/
 
-// test("items being removed from list" (){
-
-// })
-
 /*----------------------------------------------------*\
  # CHECKBOX TESTs
 \*----------------------------------------------------*/
-
-test("Check that box can be checked", () => {
-  // test goes here
-});
-test("Check that box can be unchecked", () => {
-  // test goes here
-});
-
-test("Checking 'complete' appears once checked", () => {
-  // test goes here
-});
 
 test("Check checkbox added to the completed task array", () => {
   // test goes here
