@@ -22,63 +22,63 @@ let checkComplete = Array.from(document.querySelectorAll("check-complete"));
 \*----------------------------------------------------*/
 
 // COMMENTED OUT LOCAL STORAGE
-// //collect stored global State from local storage
-// function getStoredState() {
-//   let newGlobalState = window.localStorage.getItem("preservedState");
-//   if (newGlobalState !== "null") {
-//     globalState = JSON.parse(newGlobalState);
-//     //update DOM with items
-//     addToList(globalState);
-//     console.log("New state following addition:", globalState);
-//   }
-// }
-// console.log(globalState);
+//collect stored global State from local storage
+function getStoredState() {
+  let newGlobalState = window.localStorage.getItem("preservedState");
+  if (newGlobalState !== "null") {
+    globalState = JSON.parse(newGlobalState);
+    //update DOM with items
+    addToList(globalState);
+    console.log("New state following addition:", globalState);
+  }
+}
+console.log(globalState);
 
-// //loop over global state array and create list using createElement
-// function addToList(globalState) {
-//   stateList = globalState;
-//   stateList.forEach(item => {
-//     //create <li>
-//     const newItem = document.createElement("li");
-//     //append current todo text item
-//     newItem.appendChild(document.createTextNode(item.savedText));
-//     newItem.setAttribute("id", item.uid);
+//loop over global state array and create list using createElement
+function addToList(globalState) {
+  stateList = globalState;
+  stateList.forEach(item => {
+    //create <li>
+    const newItem = document.createElement("li");
+    //append current todo text item
+    newItem.appendChild(document.createTextNode(item.savedText));
+    newItem.setAttribute("id", item.uid);
 
-//     //create checkbox
-//     const checkbox = document.createElement("input");
-//     checkbox.setAttribute("type", "checkbox");
-//     checkbox.classList.add("check-complete");
+    //create checkbox
+    const checkbox = document.createElement("input");
+    checkbox.setAttribute("type", "checkbox");
+    checkbox.classList.add("check-complete");
 
-//     //create deleteBtn for each and add event listeners
-//     const deleteBtn = document.createElement("button");
-//     deleteBtn.innerText = "X";
+    //create deleteBtn for each and add event listeners
+    const deleteBtn = document.createElement("button");
+    deleteBtn.innerText = "X";
 
-//     deleteBtn.addEventListener("click", event => {
-//       //when clicked get id of clicked
-//       let clickedLi = event.target.parentElement;
-//       let clickedID = clickedLi.id;
+    deleteBtn.addEventListener("click", event => {
+      //when clicked get id of clicked
+      let clickedLi = event.target.parentElement;
+      let clickedID = clickedLi.id;
 
-//       //find index of item to be removed from global state
-//       let removalIndex = globalState.findIndex(item => item.uid === clickedID);
+      //find index of item to be removed from global state
+      let removalIndex = globalState.findIndex(item => item.uid === clickedID);
 
-//       //splice item from global state and remove from DOM
-//       globalState.splice(removalIndex, 1);
-//       clickedLi.remove();
+      //splice item from global state and remove from DOM
+      globalState.splice(removalIndex, 1);
+      clickedLi.remove();
 
-//       console.log("New state following deletion:", globalState);
-//       window.localStorage.setItem(
-//         "preservedState",
-//         JSON.stringify(globalState)
-//       );
-//     });
+      console.log("New state following deletion:", globalState);
+      window.localStorage.setItem(
+        "preservedState",
+        JSON.stringify(globalState)
+      );
+    });
 
-//     //Append checkbox and delete button to <li> and append <li> to <ol>
-//     newItem.appendChild(checkbox);
-//     newItem.appendChild(deleteBtn);
-//     newItem.setAttribute("class", "todo-item");
-//     todoList.appendChild(newItem);
-//   });
-// }c
+    //Append checkbox and delete button to <li> and append <li> to <ol>
+    newItem.appendChild(checkbox);
+    newItem.appendChild(deleteBtn);
+    newItem.setAttribute("class", "todo-item");
+    todoList.appendChild(newItem);
+  });
+}
 
 /*----------------------------------------------------*\
   EVENT LISTENERS
@@ -136,50 +136,52 @@ form.addEventListener("submit", event => {
   //clear current contents of list
   todoList.innerHTML = "";
 
-  globalState.forEach(item => {
-    //create <li>
-    const newItem = document.createElement("li");
-    //append current todo text item
-    newItem.appendChild(document.createTextNode(item.savedText));
-    newItem.setAttribute("id", item.uid);
-    newItem.classList.add("check-complete");
+  // COMMENTED OUT OLD VERSION
 
-    //create checkbox
-    const checkbox = document.createElement("input");
-    checkbox.setAttribute("type", "checkbox");
+  // globalState.forEach(item => {
+  //   //create <li>
+  //   const newItem = document.createElement("li");
+  //   //append current todo text item
+  //   newItem.appendChild(document.createTextNode(item.savedText));
+  //   newItem.setAttribute("id", item.uid);
+  //   newItem.classList.add("check-complete");
 
-    //create deleteBtn for each and add event listeners
-    const deleteBtn = document.createElement("button");
-    deleteBtn.innerText = "X";
+  //   //create checkbox
+  //   const checkbox = document.createElement("input");
+  //   checkbox.setAttribute("type", "checkbox");
 
-    deleteBtn.addEventListener("click", event => {
-      //when clicked get id of clicked
-      let clickedLi = event.target.parentElement;
-      let clickedID = clickedLi.id;
+  //   //create deleteBtn for each and add event listeners
+  //   const deleteBtn = document.createElement("button");
+  //   deleteBtn.innerText = "X";
 
-      //find index of item to be removed from global state
-      let removalIndex = globalState.findIndex(item => item.uid === clickedID);
+  //   deleteBtn.addEventListener("click", event => {
+  //     //when clicked get id of clicked
+  //     let clickedLi = event.target.parentElement;
+  //     let clickedID = clickedLi.id;
 
-      //splice item from global state and remove from DOM
-      globalState.splice(removalIndex, 1);
-      clickedLi.remove();
+  //     //find index of item to be removed from global state
+  //     let removalIndex = globalState.findIndex(item => item.uid === clickedID);
 
-      console.log("New state following deletion:", globalState);
-    });
+  //     //splice item from global state and remove from DOM
+  //     globalState.splice(removalIndex, 1);
+  //     clickedLi.remove();
 
-    //Append checkbox and delete button to <li> and append <li> to <ol>
-    newItem.appendChild(checkbox);
-    newItem.appendChild(deleteBtn);
-    newItem.setAttribute("class", "todo-item");
-    todoList.appendChild(newItem);
-  });
+  //     console.log("New state following deletion:", globalState);
+  //   });
+
+  //   //Append checkbox and delete button to <li> and append <li> to <ol>
+  //   newItem.appendChild(checkbox);
+  //   newItem.appendChild(deleteBtn);
+  //   newItem.setAttribute("class", "todo-item");
+  //   todoList.appendChild(newItem);
+  // });
 
   // COMMENTED OUT LOCAL STORAGE
-  //addToList(globalState);
+  addToList(globalState);
 
-  // console.log("New state following addition:", globalState);
-  // window.localStorage.setItem("preservedState", JSON.stringify(globalState));
-  // event.target.reset();
+  console.log("New state following addition:", globalState);
+  window.localStorage.setItem("preservedState", JSON.stringify(globalState));
+  event.target.reset();
 });
 
 /*----------------------------------------------------*\
