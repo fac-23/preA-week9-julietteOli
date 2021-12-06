@@ -124,14 +124,16 @@ form.addEventListener("submit", (event) => {
   const userInput = document.querySelector("#user_input").value;
   // push it into global state array
   let uid = Math.random().toString(16).slice(10);
-  globalState.push({ savedText: userInput, uid: uid });
+  if (userInput) {
+    globalState.push({ savedText: userInput, uid: uid });
 
-  //clear current contents of list
-  todoList.innerHTML = "";
+    //clear current contents of list
+    todoList.innerHTML = "";
 
-  addToList(globalState);
+    addToList(globalState);
 
-  window.localStorage.setItem("preservedState", JSON.stringify(globalState));
+    window.localStorage.setItem("preservedState", JSON.stringify(globalState));
+  }
   event.target.reset();
 });
 
