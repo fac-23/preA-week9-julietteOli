@@ -12,11 +12,10 @@ const submit = document.querySelector('button[type="submit"]');
 const textInput = document.querySelector("#user_input");
 
 //retrieve stored State and update DOM
-//getStoredState();
+getStoredState();
 
 //Checkbox variables
 let completeArray = [];
-let checkComplete = Array.from(document.querySelectorAll("check-complete"));
 /*----------------------------------------------------*\
   FUNCTIONS 
 \*----------------------------------------------------*/
@@ -32,12 +31,11 @@ function getStoredState() {
     console.log("New state following addition:", globalState);
   }
 }
-console.log(globalState);
 
 //loop over global state array and create list using createElement
 function addToList(globalState) {
   stateList = globalState;
-  stateList.forEach(item => {
+  stateList.forEach((item) => {
     //create <li>
     const newItem = document.createElement("li");
     //append current todo text item
@@ -47,19 +45,20 @@ function addToList(globalState) {
     //create checkbox
     const checkbox = document.createElement("input");
     checkbox.setAttribute("type", "checkbox");
-    checkbox.classList.add("check-complete");
 
     //create deleteBtn for each and add event listeners
     const deleteBtn = document.createElement("button");
     deleteBtn.innerText = "X";
 
-    deleteBtn.addEventListener("click", event => {
+    deleteBtn.addEventListener("click", (event) => {
       //when clicked get id of clicked
       let clickedLi = event.target.parentElement;
       let clickedID = clickedLi.id;
 
       //find index of item to be removed from global state
-      let removalIndex = globalState.findIndex(item => item.uid === clickedID);
+      let removalIndex = globalState.findIndex(
+        (item) => item.uid === clickedID
+      );
 
       //splice item from global state and remove from DOM
       globalState.splice(removalIndex, 1);
@@ -84,15 +83,8 @@ function addToList(globalState) {
   EVENT LISTENERS
 \*----------------------------------------------------*/
 
-// Marking completed event listeners
-// todoList.addEventListener("change", displayCompleted);
-// todoList.addEventListener("change", updateCompleted);
-
-// // Toggle event listener
-// toggle.addEventListener("change", hideToggle);
-
 // UPDATING COMPLETED
-todoList.addEventListener("change", event => {
+todoList.addEventListener("change", (event) => {
   event.preventDefault();
   let clickedLi = event.target.parentElement;
   //add the class "completed-text"
@@ -107,14 +99,13 @@ todoList.addEventListener("change", event => {
 
   //push into complete array
   completeArray.push(clickedLi);
-  console.log(completeArray);
 
   //find element ID
   let currId = clickedLi.id;
 });
 
 //TOGGLE TO HIDE
-toggle.addEventListener("change", event => {
+toggle.addEventListener("change", (event) => {
   event.preventDefault();
   for (let i = 0; i < completeArray.length; i++) {
     if (completeArray[i].classList.contains("hide")) {
@@ -126,64 +117,20 @@ toggle.addEventListener("change", event => {
 });
 
 //add event listener to save new item to todo lit
-form.addEventListener("submit", event => {
+form.addEventListener("submit", (event) => {
   event.preventDefault();
 
   // get user input from form
   const userInput = document.querySelector("#user_input").value;
   // push it into global state array
-  let uid = Math.random()
-    .toString(16)
-    .slice(10);
+  let uid = Math.random().toString(16).slice(10);
   globalState.push({ savedText: userInput, uid: uid });
 
   //clear current contents of list
   todoList.innerHTML = "";
 
-  // COMMENTED OUT OLD VERSION
-
-  // globalState.forEach(item => {
-  //   //create <li>
-  //   const newItem = document.createElement("li");
-  //   //append current todo text item
-  //   newItem.appendChild(document.createTextNode(item.savedText));
-  //   newItem.setAttribute("id", item.uid);
-  //   newItem.classList.add("check-complete");
-
-  //   //create checkbox
-  //   const checkbox = document.createElement("input");
-  //   checkbox.setAttribute("type", "checkbox");
-
-  //   //create deleteBtn for each and add event listeners
-  //   const deleteBtn = document.createElement("button");
-  //   deleteBtn.innerText = "X";
-
-  //   deleteBtn.addEventListener("click", event => {
-  //     //when clicked get id of clicked
-  //     let clickedLi = event.target.parentElement;
-  //     let clickedID = clickedLi.id;
-
-  //     //find index of item to be removed from global state
-  //     let removalIndex = globalState.findIndex(item => item.uid === clickedID);
-
-  //     //splice item from global state and remove from DOM
-  //     globalState.splice(removalIndex, 1);
-  //     clickedLi.remove();
-
-  //     console.log("New state following deletion:", globalState);
-  //   });
-
-  //   //Append checkbox and delete button to <li> and append <li> to <ol>
-  //   newItem.appendChild(checkbox);
-  //   newItem.appendChild(deleteBtn);
-  //   newItem.setAttribute("class", "todo-item");
-  //   todoList.appendChild(newItem);
-  // });
-
-  // COMMENTED OUT LOCAL STORAGE
   addToList(globalState);
 
-  console.log("New state following addition:", globalState);
   window.localStorage.setItem("preservedState", JSON.stringify(globalState));
   event.target.reset();
 });
