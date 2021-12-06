@@ -94,6 +94,10 @@ body {
   flex-direction: row;
 }
 
+.hide {
+  display: none;
+}
+
 /* The switch - the box around the slider */
 .hide-done {
   display: block;

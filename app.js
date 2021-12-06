@@ -12,7 +12,7 @@ const submit = document.querySelector('button[type="submit"]');
 const textInput = document.querySelector("#user_input");
 
 //retrieve stored State and update DOM
-getStoredState();
+//getStoredState();
 
 //Checkbox variables
 let completeArray = [];
@@ -21,6 +21,7 @@ let checkComplete = Array.from(document.querySelectorAll("check-complete"));
   FUNCTIONS 
 \*----------------------------------------------------*/
 
+// COMMENTED OUT LOCAL STORAGE
 //collect stored global State from local storage
 function getStoredState() {
   let newGlobalState = window.localStorage.getItem("preservedState");
@@ -31,11 +32,12 @@ function getStoredState() {
     console.log("New state following addition:", globalState);
   }
 }
+console.log(globalState);
 
 //loop over global state array and create list using createElement
 function addToList(globalState) {
   stateList = globalState;
-  stateList.forEach((item) => {
+  stateList.forEach(item => {
     //create <li>
     const newItem = document.createElement("li");
     //append current todo text item
@@ -51,15 +53,13 @@ function addToList(globalState) {
     const deleteBtn = document.createElement("button");
     deleteBtn.innerText = "X";
 
-    deleteBtn.addEventListener("click", (event) => {
+    deleteBtn.addEventListener("click", event => {
       //when clicked get id of clicked
       let clickedLi = event.target.parentElement;
       let clickedID = clickedLi.id;
 
       //find index of item to be removed from global state
-      let removalIndex = globalState.findIndex(
-        (item) => item.uid === clickedID
-      );
+      let removalIndex = globalState.findIndex(item => item.uid === clickedID);
 
       //splice item from global state and remove from DOM
       globalState.splice(removalIndex, 1);
@@ -80,62 +80,103 @@ function addToList(globalState) {
   });
 }
 
-// a function to display completed once item is checked off the list
-function displayCompleted(event) {
-  console.log(globalState);
-  event.target.classList.add("completed-text");
-  const completedText = document.createElement("li");
-
-  /* Considering making the word completed appear */
-  //completedText.appendChild(document.createTextNode("completed"));
-  //completedText.classList.add("completed-text");
-  //todoList.appendChild(completedText);
-}
-
-function updateCompleted(event) {
-  completeArray.push(event.target);
-  //console.log(completeArray);
-}
-
-function hideToggle(event) {
-  if (toggle.classList.contains("hide")) {
-    toggle.classList.remove("hide");
-  } else {
-    toggle.setAttribute("class", "hide");
-
-    completeArray.forEach((el) => {
-      el.setAttribute("style", "display:none");
-    });
-    console.log(completeArray);
-    //if (event.target.value === "checked") {
-    console.log(toggle.classList);
-  }
-}
-
 /*----------------------------------------------------*\
   EVENT LISTENERS
 \*----------------------------------------------------*/
 
 // Marking completed event listeners
-todoList.addEventListener("input", displayCompleted);
-todoList.addEventListener("input", updateCompleted);
+// todoList.addEventListener("change", displayCompleted);
+// todoList.addEventListener("change", updateCompleted);
 
-// Toggle event listener
-toggle.addEventListener("change", hideToggle);
+// // Toggle event listener
+// toggle.addEventListener("change", hideToggle);
+
+// UPDATING COMPLETED
+todoList.addEventListener("change", event => {
+  event.preventDefault();
+  let clickedLi = event.target.parentElement;
+  //add the class "completed-text"
+  clickedLi.classList.add("item-completed");
+
+  // turn whole li green
+  clickedLi.style.color = "var(--completed-color)";
+
+  //push into complete array
+  completeArray.push(clickedLi);
+  console.log(completeArray);
+
+  //find element ID
+  let currId = clickedLi.id;
+});
+
+//TOGGLE TO HIDE
+toggle.addEventListener("change", event => {
+  event.preventDefault();
+  for (let i = 0; i < completeArray.length; i++) {
+    if (completeArray[i].classList.contains("hide")) {
+      completeArray[i].classList.remove("hide");
+    } else {
+      completeArray[i].classList.add("hide");
+    }
+  }
+});
 
 //add event listener to save new item to todo lit
-form.addEventListener("submit", (event) => {
+form.addEventListener("submit", event => {
   event.preventDefault();
 
   // get user input from form
   const userInput = document.querySelector("#user_input").value;
   // push it into global state array
-  let uid = Math.random().toString(16).slice(10);
+  let uid = Math.random()
+    .toString(16)
+    .slice(10);
   globalState.push({ savedText: userInput, uid: uid });
 
   //clear current contents of list
   todoList.innerHTML = "";
 
+  // COMMENTED OUT OLD VERSION
+
+  // globalState.forEach(item => {
+  //   //create <li>
+  //   const newItem = document.createElement("li");
+  //   //append current todo text item
+  //   newItem.appendChild(document.createTextNode(item.savedText));
+  //   newItem.setAttribute("id", item.uid);
+  //   newItem.classList.add("check-complete");
+
+  //   //create checkbox
+  //   const checkbox = document.createElement("input");
+  //   checkbox.setAttribute("type", "checkbox");
+
+  //   //create deleteBtn for each and add event listeners
+  //   const deleteBtn = document.createElement("button");
+  //   deleteBtn.innerText = "X";
+
+  //   deleteBtn.addEventListener("click", event => {
+  //     //when clicked get id of clicked
+  //     let clickedLi = event.target.parentElement;
+  //     let clickedID = clickedLi.id;
+
+  //     //find index of item to be removed from global state
+  //     let removalIndex = globalState.findIndex(item => item.uid === clickedID);
+
+  //     //splice item from global state and remove from DOM
+  //     globalState.splice(removalIndex, 1);
+  //     clickedLi.remove();
+
+  //     console.log("New state following deletion:", globalState);
+  //   });
+
+  //   //Append checkbox and delete button to <li> and append <li> to <ol>
+  //   newItem.appendChild(checkbox);
+  //   newItem.appendChild(deleteBtn);
+  //   newItem.setAttribute("class", "todo-item");
+  //   todoList.appendChild(newItem);
+  // });
+
+  // COMMENTED OUT LOCAL STORAGE
   addToList(globalState);
 
   console.log("New state following addition:", globalState);
@@ -152,10 +193,10 @@ test("user can add to list", () => {
   textInput.value = "feed the cat";
   //automate button click
   submit.click();
-  //repeat
+  // //repeat
   textInput.value = "wash the dishes";
   submit.click();
-  //repeat
+  // //repeat
   textInput.value = "buy jelly and iceream";
   submit.click();
 
@@ -225,3 +266,31 @@ function clearList() {
   }
   globalState = [];
 }
+
+let firstItem = todoList.childNodes[0];
+let secondItem = todoList.childNodes[1];
+
+test("Check that box can be checked", () => {
+  //automate box being checked
+  firstItem.childNodes[1].click();
+
+  //repeat
+  secondItem.childNodes[1].click();
+
+  equal(firstItem.childNodes[1].checked, true);
+  equal(secondItem.childNodes[1].checked, true);
+});
+
+test("Checked items turn green", () => {
+  equal(firstItem.style.color, "var(--completed-color)");
+  equal(secondItem.style.color, "var(--completed-color)");
+});
+
+test("toggle hides selected items", () => {
+  toggle.click();
+  equal(completeArray[0].classList, "todo-item item-completed hide");
+});
+
+test("items added to completed array", () => {
+  equal(completeArray.length, 2);
+});
