@@ -99,7 +99,11 @@ todoList.addEventListener("change", event => {
   clickedLi.classList.add("item-completed");
 
   // turn whole li green
-  clickedLi.style.color = "var(--completed-color)";
+  if (clickedLi.style.color !== "var(--completed-color)") {
+    clickedLi.style.color = "var(--completed-color)";
+  } else {
+    clickedLi.style.color = "var(--font-color)";
+  }
 
   //push into complete array
   completeArray.push(clickedLi);

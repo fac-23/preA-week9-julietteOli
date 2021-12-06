@@ -74,11 +74,16 @@ body {
   display: flex;
   min-width: 60vw;
   background-color: var(--light-color);
+  border-radius: 5%;
 }
 .todo-output {
   min-width: 60vw;
   background-color: var(--light-color);
   justify-content: flex-start;
+}
+.main-section {
+  background-color: var(--light-color);
+  border-radius: 5%;
 }
 
 /* COMPLETED TASKS CSS*/
