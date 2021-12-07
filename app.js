@@ -35,7 +35,7 @@ function getStoredState() {
 //loop over global state array and create list using createElement
 function addToList(globalState) {
   stateList = globalState;
-  stateList.forEach((item) => {
+  stateList.forEach(item => {
     //create <li>
     const newItem = document.createElement("li");
     //append current todo text item
@@ -50,15 +50,13 @@ function addToList(globalState) {
     const deleteBtn = document.createElement("button");
     deleteBtn.innerText = "X";
 
-    deleteBtn.addEventListener("click", (event) => {
+    deleteBtn.addEventListener("click", event => {
       //when clicked get id of clicked
       let clickedLi = event.target.parentElement;
       let clickedID = clickedLi.id;
 
       //find index of item to be removed from global state
-      let removalIndex = globalState.findIndex(
-        (item) => item.uid === clickedID
-      );
+      let removalIndex = globalState.findIndex(item => item.uid === clickedID);
 
       //splice item from global state and remove from DOM
       globalState.splice(removalIndex, 1);
@@ -84,7 +82,7 @@ function addToList(globalState) {
 \*----------------------------------------------------*/
 
 // UPDATING COMPLETED
-todoList.addEventListener("change", (event) => {
+todoList.addEventListener("change", event => {
   event.preventDefault();
   let clickedLi = event.target.parentElement;
   //add the class "completed-text"
@@ -105,7 +103,7 @@ todoList.addEventListener("change", (event) => {
 });
 
 //TOGGLE TO HIDE
-toggle.addEventListener("change", (event) => {
+toggle.addEventListener("change", event => {
   event.preventDefault();
   for (let i = 0; i < completeArray.length; i++) {
     if (completeArray[i].classList.contains("hide")) {
@@ -117,13 +115,15 @@ toggle.addEventListener("change", (event) => {
 });
 
 //add event listener to save new item to todo lit
-form.addEventListener("submit", (event) => {
+form.addEventListener("submit", event => {
   event.preventDefault();
 
   // get user input from form
   const userInput = document.querySelector("#user_input").value;
   // push it into global state array
-  let uid = Math.random().toString(16).slice(10);
+  let uid = Math.random()
+    .toString(16)
+    .slice(10);
   if (userInput) {
     globalState.push({ savedText: userInput, uid: uid });
 
