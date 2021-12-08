@@ -86,7 +86,7 @@ function addToList(globalState) {
 \*----------------------------------------------------*/
 
 // UPDATING COMPLETED
-todoList.addEventListener("change", (event) => {
+todoList.addEventListener("change", event => {
   event.preventDefault();
   let clickedLi = event.target.parentElement;
   //add the class "completed-text"
@@ -107,7 +107,7 @@ todoList.addEventListener("change", (event) => {
 });
 
 //TOGGLE TO HIDE
-toggle.addEventListener("change", (event) => {
+toggle.addEventListener("change", event => {
   event.preventDefault();
   for (let i = 0; i < completeArray.length; i++) {
     if (completeArray[i].classList.contains("hide")) {
@@ -119,13 +119,15 @@ toggle.addEventListener("change", (event) => {
 });
 
 //add event listener to save new item to todo lit
-form.addEventListener("submit", (event) => {
+form.addEventListener("submit", event => {
   event.preventDefault();
 
   // get user input from form
   const userInput = document.querySelector("#user_input").value;
   // push it into global state array
-  let uid = Math.random().toString(16).slice(10);
+  let uid = Math.random()
+    .toString(16)
+    .slice(10);
   if (userInput) {
     globalState.push({ savedText: userInput, uid: uid });
 

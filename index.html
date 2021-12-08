@@ -10,7 +10,7 @@
 
   <body>
     <header>
-      <img class="logo" src="media/jello.png" />
+      <img class="logo logo-size" src="media/jello.png" />
     </header>
 
     <h1 class="center">Jello App</h1>
@@ -18,16 +18,24 @@
     <div class="main-section center width-md">
       <section class="center input-form">
         <!-- Controls -->
-        <form>
+        <form class="stack-sm">
           <!-- Toggle to hide completed tasks -->
-          <div class="toggle-wrapper">
-            <label class="hide-done" for="hideToggle">
-              <input type="checkbox" id="hideToggle" />
-              <div class="slider round"></div>
-            </label>
+          <div class="toggle-section center ">
+            <div class="toggle-wrapper">
+              <label class="hide-done" for="hideToggle">
+                <input type="checkbox" id="hideToggle" />
+                <div class="slider round"></div>
+              </label>
+            </div>
+            <h3>Hide your completed tasks!</h3>
           </div>
 
-          <input id="user_input" type="text" name="user_input" />
+          <input
+            id="user_input"
+            type="text"
+            name="user_input"
+            class="stack-lg"
+          />
           <button type="submit">save item</button>
         </form>
       </section>
