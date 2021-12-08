@@ -28,8 +28,8 @@
 /* GLOBAL VARIABLES */
 /* Colors */
 html {
-  --bg-color: #2d3950;
-  --light-color: #00a28d;
+  --bg-color: #00a28d;
+  --light-color: #2d3950;
   --font-color: whitesmoke;
   --completed-color: #7dddf9;
 }
