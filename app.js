@@ -6,6 +6,7 @@
 let globalState = [];
 let sliderKeyPrimed = false;
 
+const logo = document.querySelector(".logo");
 const todoList = document.querySelector("#todo_list");
 const toggle = document.querySelector("#hideToggle");
 const form = document.querySelector("form");
@@ -30,7 +31,6 @@ function getStoredState() {
     globalState = JSON.parse(newGlobalState);
     //update DOM with items
     addToList(globalState);
-    console.log("New state following addition:", globalState);
   }
 }
 
@@ -67,7 +67,6 @@ function addToList(globalState) {
         globalState.splice(removalIndex, 1);
         clickedLi.remove();
 
-        console.log("New state following deletion:", globalState);
         window.localStorage.setItem(
           "preservedState",
           JSON.stringify(globalState)
@@ -164,110 +163,116 @@ window.addEventListener("keydown", (event) => {
 /*----------------------------------------------------*\
  TESTs
 \*----------------------------------------------------*/
-test("user can add to list", () => {
-  clearList();
-  //automate input of user text
-  textInput.value = "feed the cat";
-  //automate button click
-  submit.click();
-  // //repeat
-  textInput.value = "wash the dishes";
-  submit.click();
-  // //repeat
-  textInput.value = "buy jelly and iceream";
-  submit.click();
-
-  let firstItem = todoList.childNodes[0];
-  let secondItem = todoList.childNodes[1];
-  let thirdItem = todoList.childNodes[2];
-
-  //check text is added in correct order and checkbox and buttons are preserved
-  equal(
-    firstItem.innerHTML,
-    'feed the cat<input type="checkbox"><button>X</button>'
-  );
-
-  equal(
-    secondItem.innerHTML,
-    'wash the dishes<input type="checkbox"><button>X</button>'
-  );
-
-  equal(
-    thirdItem.innerHTML,
-    'buy jelly and iceream<input type="checkbox"><button>X</button>'
-  );
+logo.addEventListener("click", (event) => {
+  runAlltests();
 });
 
-test("user can delete from list", () => {
-  clearList();
-  // automate input of user text
-  // automate button click
+function runAlltests() {
+  test("user can add to list", () => {
+    clearList();
+    //automate input of user text
+    textInput.value = "feed the cat";
+    //automate button click
+    submit.click();
+    // //repeat
+    textInput.value = "wash the dishes";
+    submit.click();
+    // //repeat
+    textInput.value = "buy jelly and iceream";
+    submit.click();
 
-  textInput.value = "go to gym";
-  submit.click();
-  //repeat
-  textInput.value = "learn JavaScript";
-  submit.click();
-  //repeat
-  textInput.value = "watch new netflix show";
-  submit.click();
+    let firstItem = todoList.childNodes[0];
+    let secondItem = todoList.childNodes[1];
+    let thirdItem = todoList.childNodes[2];
 
-  let firstItem = todoList.childNodes[0];
-  let secondItem = todoList.childNodes[1];
-  let thirdItem = todoList.childNodes[2];
+    //check text is added in correct order and checkbox and buttons are preserved
+    equal(
+      firstItem.innerHTML,
+      'feed the cat<input type="checkbox"><button>X</button>'
+    );
 
-  let secondButton = secondItem.childNodes[2];
-  secondButton.click();
+    equal(
+      secondItem.innerHTML,
+      'wash the dishes<input type="checkbox"><button>X</button>'
+    );
 
-  //dom has changed so queryselect again
-  firstItem = todoList.childNodes[0];
-  secondItem = todoList.childNodes[1];
-  thirdItem = todoList.childNodes[2];
+    equal(
+      thirdItem.innerHTML,
+      'buy jelly and iceream<input type="checkbox"><button>X</button>'
+    );
+  });
 
-  // check text is added in correct order and checkbox and buttons are preserved
-  equal(
-    firstItem.innerHTML,
-    'go to gym<input type="checkbox"><button>X</button>'
-  );
-  equal(
-    secondItem.innerHTML,
-    'watch new netflix show<input type="checkbox"><button>X</button>'
-  );
-  equal(thirdItem, undefined);
-});
+  test("user can delete from list", () => {
+    clearList();
+    // automate input of user text
+    // automate button click
 
-function clearList() {
-  //removes all list items and sets global state to empty array
-  while (todoList.firstChild) {
-    todoList.removeChild(todoList.lastChild);
+    textInput.value = "go to gym";
+    submit.click();
+    //repeat
+    textInput.value = "learn JavaScript";
+    submit.click();
+    //repeat
+    textInput.value = "watch new netflix show";
+    submit.click();
+
+    let firstItem = todoList.childNodes[0];
+    let secondItem = todoList.childNodes[1];
+    let thirdItem = todoList.childNodes[2];
+
+    let secondButton = secondItem.childNodes[2];
+    secondButton.click();
+
+    //dom has changed so queryselect again
+    firstItem = todoList.childNodes[0];
+    secondItem = todoList.childNodes[1];
+    thirdItem = todoList.childNodes[2];
+
+    // check text is added in correct order and checkbox and buttons are preserved
+    equal(
+      firstItem.innerHTML,
+      'go to gym<input type="checkbox"><button>X</button>'
+    );
+    equal(
+      secondItem.innerHTML,
+      'watch new netflix show<input type="checkbox"><button>X</button>'
+    );
+    equal(thirdItem, undefined);
+  });
+
+  function clearList() {
+    //removes all list items and sets global state to empty array
+    while (todoList.firstChild) {
+      todoList.removeChild(todoList.lastChild);
+    }
+    globalState = [];
   }
-  globalState = [];
+
+  let firstItem = todoList.childNodes[0];
+  let secondItem = todoList.childNodes[1];
+
+  test("Check that box can be checked", () => {
+    //automate box being checked
+    firstItem.childNodes[1].click();
+
+    //repeat
+    secondItem.childNodes[1].click();
+
+    equal(firstItem.childNodes[1].checked, true);
+    equal(secondItem.childNodes[1].checked, true);
+  });
+
+  test("Checked items turn green", () => {
+    equal(firstItem.style.color, "var(--completed-color)");
+    equal(secondItem.style.color, "var(--completed-color)");
+  });
+
+  test("toggle hides selected items", () => {
+    toggle.click();
+    equal(completeArray[0].classList, "todo-item item-completed hide");
+  });
+
+  test("items added to completed array", () => {
+    equal(completeArray.length, 2);
+  });
 }
-
-let firstItem = todoList.childNodes[0];
-let secondItem = todoList.childNodes[1];
-
-test("Check that box can be checked", () => {
-  //automate box being checked
-  firstItem.childNodes[1].click();
-
-  //repeat
-  secondItem.childNodes[1].click();
-
-  equal(firstItem.childNodes[1].checked, true);
-  equal(secondItem.childNodes[1].checked, true);
-});
-
-test("Checked items turn green", () => {
-  equal(firstItem.style.color, "var(--completed-color)");
-  equal(secondItem.style.color, "var(--completed-color)");
-});
-
-test("toggle hides selected items", () => {
-  toggle.click();
-  equal(completeArray[0].classList, "todo-item item-completed hide");
-});
-
-test("items added to completed array", () => {
-  equal(completeArray.length, 2);
-});

@@ -1,18 +1,8 @@
 /*----------------------------------------------------*\
  TESTs
 \*----------------------------------------------------*/
+console.log("Click jelly logo to run tests");
 
-/*----------------------------------------------------*\
- # CHECKBOX TESTs
-\*----------------------------------------------------*/
-
-test("Check checkbox added to the completed task array", () => {
-  // test goes here
-});
-
-test("Check checkbox cannot be added to the completed task array more than once", () => {
-  // test goes here
-});
 /*----------------------------------------------------*\
  TEST HELPERS
 \*----------------------------------------------------*/
