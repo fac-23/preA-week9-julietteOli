@@ -103,6 +103,7 @@ h1 {
   background-color: var(--light-color);
   border-radius: 5%;
   gap: 1rem;
+  padding: 1rem;
 }
 
 /* COMPLETED TASKS CSS*/
