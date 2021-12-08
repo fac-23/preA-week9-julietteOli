@@ -4,10 +4,12 @@
 
 // state of todo list is just a global variable for now, later on we will read and write to local storage
 let globalState = [];
+let sliderKeyPrimed = false;
 
 const todoList = document.querySelector("#todo_list");
 const toggle = document.querySelector("#hideToggle");
 const form = document.querySelector("form");
+const slider = document.querySelector(".slider");
 const submit = document.querySelector('button[type="submit"]');
 const textInput = document.querySelector("#user_input");
 
@@ -86,7 +88,7 @@ function addToList(globalState) {
 \*----------------------------------------------------*/
 
 // UPDATING COMPLETED
-todoList.addEventListener("change", event => {
+todoList.addEventListener("change", (event) => {
   event.preventDefault();
   let clickedLi = event.target.parentElement;
   //add the class "completed-text"
@@ -107,7 +109,7 @@ todoList.addEventListener("change", event => {
 });
 
 //TOGGLE TO HIDE
-toggle.addEventListener("change", event => {
+toggle.addEventListener("change", (event) => {
   event.preventDefault();
   for (let i = 0; i < completeArray.length; i++) {
     if (completeArray[i].classList.contains("hide")) {
@@ -119,15 +121,13 @@ toggle.addEventListener("change", event => {
 });
 
 //add event listener to save new item to todo lit
-form.addEventListener("submit", event => {
+form.addEventListener("submit", (event) => {
   event.preventDefault();
 
   // get user input from form
   const userInput = document.querySelector("#user_input").value;
   // push it into global state array
-  let uid = Math.random()
-    .toString(16)
-    .slice(10);
+  let uid = Math.random().toString(16).slice(10);
   if (userInput) {
     globalState.push({ savedText: userInput, uid: uid });
 
@@ -139,6 +139,26 @@ form.addEventListener("submit", event => {
     window.localStorage.setItem("preservedState", JSON.stringify(globalState));
   }
   event.target.reset();
+});
+
+//accessibility workaround for toggle
+
+//make slider sensitive to Enter key when out of focus
+slider.addEventListener("focus", (event) => {
+  sliderKeyPrimed = true;
+});
+
+//make slider insensitive to Enter key when out of focus
+slider.addEventListener("blur", (event) => {
+  sliderKeyPrimed = false;
+});
+
+//Listen for enter keypress and if slider is in focus,
+//click toggle
+window.addEventListener("keydown", (event) => {
+  if (sliderKeyPrimed && event.key === "Enter") {
+    toggle.click();
+  }
 });
 
 /*----------------------------------------------------*\
