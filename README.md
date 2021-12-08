@@ -1,5 +1,5 @@
 # preA-week9-julietteOli
-Jelo App
+Jello App
 
 
 User story:
