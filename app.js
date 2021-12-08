@@ -48,6 +48,7 @@ function addToList(globalState) {
       //create checkbox
       const checkbox = document.createElement("input");
       checkbox.setAttribute("type", "checkbox");
+      checkbox.setAttribute("class", "checkboxPad");
 
       //create deleteBtn for each and add event listeners
       const deleteBtn = document.createElement("button");
