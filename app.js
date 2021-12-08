@@ -27,7 +27,7 @@ let completeArray = [];
 //collect stored global State from local storage
 function getStoredState() {
   let newGlobalState = window.localStorage.getItem("preservedState");
-  if (newGlobalState !== "null") {
+  if (newGlobalState !== null) {
     globalState = JSON.parse(newGlobalState);
     //update DOM with items
     addToList(globalState);
