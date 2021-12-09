@@ -30,7 +30,7 @@
 html {
   --bg-color: #00a28d;
   --light-color: #2d3950;
-  --font-color: whitesmoke;
+  --font-color: white;
   --completed-color: #7dddf9;
 }
 /*------------------------------------*\
@@ -82,6 +82,8 @@ header {
 h1 {
   margin: 1rem;
   text-align: center;
+  max-width: 50%;
+  color: var(--light-color);
 }
 /*----------------------------------------------------*\
  # To-do input form - to add new tasks
@@ -126,6 +128,10 @@ h1 {
 /*----------------------------------------------------*\
  # TOGGLE SECTION
 \*----------------------------------------------------*/
+#toggle-text {
+  font-size: x-large;
+}
+
 .toggle-section {
   display: flex;
   flex-direction: row;

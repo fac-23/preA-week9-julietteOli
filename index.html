@@ -27,11 +27,15 @@
           <div class="toggle-section center">
             <div class="toggle-wrapper">
               <label class="hide-done" for="hideToggle">
-                <input type="checkbox" id="hideToggle" />
+                <input
+                  type="checkbox"
+                  id="hideToggle"
+                  aria-describedby="toggle-text"
+                />
                 <div tabindex="0" class="slider round"></div>
               </label>
             </div>
-            <h3>Hide your completed tasks!</h3>
+            <p id="toggle-text">Hide your completed tasks!</p>
           </div>
 
           <input
