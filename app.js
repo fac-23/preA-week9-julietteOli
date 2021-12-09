@@ -48,6 +48,7 @@ function addToList(globalState) {
       //create checkbox
       const checkbox = document.createElement("input");
       checkbox.setAttribute("type", "checkbox");
+      checkbox.setAttribute("class", "checkboxPad");
 
       //create deleteBtn for each and add event listeners
       const deleteBtn = document.createElement("button");
@@ -188,17 +189,17 @@ function runAlltests() {
     //check text is added in correct order and checkbox and buttons are preserved
     equal(
       firstItem.innerHTML,
-      'feed the cat<input type="checkbox"><button>X</button>'
+      'feed the cat<input type="checkbox" class="checkboxPad"><button>X</button>'
     );
 
     equal(
       secondItem.innerHTML,
-      'wash the dishes<input type="checkbox"><button>X</button>'
+      'wash the dishes<input type="checkbox" class="checkboxPad"><button>X</button>'
     );
 
     equal(
       thirdItem.innerHTML,
-      'buy jelly and iceream<input type="checkbox"><button>X</button>'
+      'buy jelly and iceream<input type="checkbox" class="checkboxPad"><button>X</button>'
     );
   });
 
@@ -231,11 +232,11 @@ function runAlltests() {
     // check text is added in correct order and checkbox and buttons are preserved
     equal(
       firstItem.innerHTML,
-      'go to gym<input type="checkbox"><button>X</button>'
+      'go to gym<input type="checkbox" class="checkboxPad"><button>X</button>'
     );
     equal(
       secondItem.innerHTML,
-      'watch new netflix show<input type="checkbox"><button>X</button>'
+      'watch new netflix show<input type="checkbox" class="checkboxPad"><button>X</button>'
     );
     equal(thirdItem, undefined);
   });
@@ -269,7 +270,7 @@ function runAlltests() {
 
   test("toggle hides selected items", () => {
     toggle.click();
-    equal(completeArray[0].classList, "todo-item item-completed hide");
+    equal(completeArray[0].className, "todo-item item-completed hide");
   });
 
   test("items added to completed array", () => {
